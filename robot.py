@@ -131,78 +131,7 @@ def rightReader(q,T):     #右車輪カウンタリーダー,タイマー割り�
         COUNT_R = 0
         time.sleep(T)
 
-def odometry():
-    ipt = input('Ｘ座標とＹ座標を入力してください、コンマを入れてください:')
-    data = ipt.split(',')
-    data = [int(x) for x in data]
-    print('(',data[0],',',data[1],')')
-    x_new = 0
-    y_new = 0
-    robot_th = 0
-    while True:
-        global robot_w, robot_v
-        robot_th_new =robot_th + robot_w*T
-        x_old = x_new + robot_v*math.cos(robot_th)
-        y_old = y_new + robot_v*math.sin(robot_th)
-        x_new = x_old
-        y_new = y_old
-        robot_th = robot_th_new
-    if data[0] > 0:
-        turnDegreeR(90)
-        t_x = abs(x_new)/robot_v
-        forward()
-        time.sleep(t_x)
-        carStop()
-        if data[1] > 0:
-            turnDegreeL(90)
-            t_y = abs(y_new)/robot_v
-            forward()
-            time.sleep(t_y)
-            carStop()
-        elif data[1] < 0:
-            turnDegreeR(90)
-            t_y = abs(y_new)/robot_v
-            forward()
-            time.sleep(t_y)
-            carStop()
-        elif data[1] == 0:
-           carStop()
 
-    if data[0] < 0:
-        turnDegreeL(90)
-        t_x = abs(x_new)/robot_v
-        forward()
-        time.sleep(t_x)
-        carStop()
-        if data[1]> 0:
-            turnDegreeR(90)
-            t_y = abs(y_new)/robot_v
-            forward()
-            time.sleep(t_y)
-            carStop()
-        elif data[1] < 0:
-            turnDegreeL(90)
-            t_y = abs(y_new)/robot_v
-            forward()
-            time.sleep(t_y)
-            carStop()
-        elif data[1] == 0:
-           carStop()
-
-    if data[0] == 0:
-        if data[1] > 0:
-            t_y = abs(y_new)/robot_v
-            forward()
-            time.sleep(t_y)
-            carStop()
-        elif data[1] < 0:
-            turnDegreeL(180)
-            t_y = abs(y_new)/robot_v
-            forward()
-            time.sleep(t_y)
-            carStop()
-        elif data[1] == 0:
-            carStop()
 
 
 def degree_radian(degree):
