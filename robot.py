@@ -143,37 +143,39 @@ def radian_degree(radian):
 '''
 特定な角度を回転するために、現在の角度と目標角度を引数として、回転を実現する
 '''
-def turnLeft(goal_angle, current_angle):
+def turnLeft(goal_angle, current_angle=0):
      goal_radian = degree_radian(goal_angle)
      current_radian = degree_radian(current_angle)
-
      while goal_radian > current_radian:
-        robot_w_target = (Kp*(robotDeg_target - robotDeg_now))/T
-        robot_v_target = robot_w_target*robot_r
-        wheel_vr_target = wheel_vl_target = robot_v_target
-        wheel_wl = q_1.get()
-        wheel_wr = q_2.get()
-        wheel_vl = wheel_wl*wheel_r
-        wheel_vr = wheel_wr*wheel_r
-        global DC_L, DC_R
-        duty1 = Kp*(wheel_vl_target -wheel_vl) + DC_L
-        if duty1 > 100:
-            duty1 = 99
-        elif duty1 < 0:
-            duty1 = 0
-        DC_L = duty1
-        duty2 = Kp*(wheel_vr_target -wheel_vr) + DC_R
-        if duty2 > 100:
-            duty2 = 99
-        elif duty2 < 0:
-            duty2 = 0
-            print("0")
-        DC_R = duty2
-        robot_w = (wheel_vr - (-wheel_vl))/(2*robot_r)
-        robot_v = (wheel_vl + wheel_vr)/2
-        robotDeg_now = robotDeg_now +robot_w*t
-    if robotDeg_now >= robotDeg_target:
-        break
+         left_wheel_backward(50, 1)
+         right_wheel_forward(50, 1)
+         robot_w_target = (Kp*(goal_radian - current_radian))/T
+         robot_v_target = robot_w_target*ROBOT_R
+         wheel_vr_target = wheel_vl_target = robot_v_target
+         wheel_wl = q_1.get()
+         wheel_wr = q_2.get()
+         wheel_vl = wheel_wl*WHEEL_R
+         wheel_vr = wheel_wr*WHEEL_R
+         global DC_L, DC_R
+         duty1 = Kp*(wheel_vl_target -wheel_vl) + DC_L
+         if duty1 > 100:
+             duty1 = 99
+         elif duty1 < 0:
+             duty1 = 0
+         DC_L = duty1
+         duty2 = Kp*(wheel_vr_target -wheel_vr) + DC_R
+         if duty2 > 100:
+             duty2 = 99
+         elif duty2 < 0:
+             duty2 = 0
+             print("0")
+         DC_R = duty2
+         robot_w = (wheel_vr - (-wheel_vl))/(2*ROBOT_R)
+         robot_v = (wheel_vl + wheel_vr)/2
+         current_radian = current_radian +robot_w*T
+     if current_radian >= goal_radian:
+         break
+
 
 
 def turnDegreeR(degree):
