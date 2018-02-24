@@ -170,48 +170,11 @@ def turnLeft(goal_angle, current_angle=0):
              duty2 = 0
              print("0")
          DC_R = duty2
-         robot_w = (wheel_vr - (-wheel_vl))/(2*ROBOT_R)
-         robot_v = (wheel_vl + wheel_vr)/2
+         get_robot_w(wheel_wl, wheel_wr)
          current_radian = current_radian +robot_w*T
      if current_radian >= goal_radian:
          break
 
-
-
-def turnDegreeR(degree):
-    global robotDeg_now
-    robotDeg_now = (robotDeg_now*(math.pi))/180
-    robotDeg_target =(degree*(math.pi))/180
-    while True:
-        if robotDeg_target > robotDeg_now:
-            turnRight()
-            robot_w_target = (Kp*(robotDeg_target - robotDeg_now))/t
-            robot_v_target = robot_w_target*robot_r
-            wheel_vr_target = wheel_vl_target = robot_v_target
-            wheel_wl = q_1.get()
-            wheel_wr = q_2.get()
-            wheel_vl = wheel_wl*wheel_r
-            wheel_vr = wheel_wr*wheel_r
-            global DC_L, DC_R
-            duty1 = Kp*(wheel_vl_target -wheel_vl) + DC_L
-            if duty1 > 100:
-                duty1 = 99
-            elif duty1 < 0:
-                duty1 = 0
-            DC_L = duty1
-            duty2 = Kp*(wheel_vr_target -wheel_vr) + DC_R
-            if duty2 > 100:
-                duty2 = 99
-            elif duty2 < 0:
-                duty2 = 0
-                print("0")
-            DC_R = duty2
-            robot_w = (wheel_vr - (-wheel_vl))/(2*robot_r)
-            robotDeg_now = robotDeg_now +robot_w*t
-            #print("robotDeg_now:%s" %robotDeg_now)
-            #print("robotDeg_target:%s"%robotDeg_target)
-        if robotDeg_now >= robotDeg_target:
-            break
 
 GPIO.setup(13, GPIO.IN)
 GPIO.setup(11, GPIO.IN)
@@ -229,8 +192,8 @@ if __name__ == '__main__':    #メイン関数
     q_1 = queue.Queue(maxsize=1)      #queueの初期化、sizeは1です
     q_2 = queue.Queue(maxsize=1)
 
-    thread_1 = threading.Thread(None, leftReader, kwargs={'q': q_1,'t':t})
-    thread_2 = threading.Thread(None, rightReader, kwargs={'q': q_2,'t':t})
+    thread_1 = threading.Thread(None, leftReader, kwargs={'q': q_1,'t':T})
+    thread_2 = threading.Thread(None, rightReader, kwargs={'q': q_2,'t':T})
 
     thread_1.start()
     thread_2.start()
