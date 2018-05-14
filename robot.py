@@ -67,7 +67,7 @@ def left_wheel_forward(dc_l, t):
     time.sleep(t)
 
 
-def left_wheel_backward(dc_r, t):
+def left_wheel_backward(dc_l, t):
     pwmL.ChangeDutyCycle(dc_l)
     GPIO.output(IN3_L, GPIO.LOW)
     GPIO.output(IN4_L, GPIO.HIGH)
@@ -172,8 +172,9 @@ def turnLeft(goal_angle, current_angle=0):
          DC_R = duty2
          get_robot_w(wheel_wl, wheel_wr)
          current_radian = current_radian +robot_w*T
-     if current_radian >= goal_radian:
-         break
+         if current_radian >= goal_radian:
+             break
+
 
 
 GPIO.setup(13, GPIO.IN)
