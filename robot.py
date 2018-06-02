@@ -176,11 +176,11 @@ def turnLeft(goal_angle, current_angle=0):
              break
 
 
-
-GPIO.setup(13, GPIO.IN)
-GPIO.setup(11, GPIO.IN)
-GPIO.add_event_detect(13, GPIO.RISING, callback=leftWheel, bouncetime=1)
-GPIO.add_event_detect(11, GPIO.RISING, callback=rightWheel, bouncetime=1)
+def encoder_pin_config():
+    GPIO.setup(13, GPIO.IN)
+    GPIO.setup(11, GPIO.IN)
+    GPIO.add_event_detect(13, GPIO.RISING, callback=leftWheel, bouncetime=1)
+    GPIO.add_event_detect(11, GPIO.RISING, callback=rightWheel, bouncetime=1)
 
 
 if __name__ == '__main__':    #メイン関数
